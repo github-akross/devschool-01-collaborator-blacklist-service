@@ -19,5 +19,5 @@ public class Blacklist {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
     private String cpf ;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 }
