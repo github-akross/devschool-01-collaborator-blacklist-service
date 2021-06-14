@@ -7,6 +7,11 @@ import br.com.devschool.collaboratorblacklistservice.infrastructure.repository.B
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -15,7 +20,34 @@ public class BlacklistImpl implements BlacklistService {
     private  final BlacklistRepository blacklistRepository;
 
     @Override
+    public List<Blacklist> getAllblacklisted() {
+        return blacklistRepository.findAll();
+    }
+
+    @Override
     public Blacklist getBlacklistedCollaboratorByCpf(String cpf) {
         return  blacklistRepository.findByCpf(cpf).orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public Blacklist createBlacklisted(Blacklist blacklist) {
+        Optional<Blacklist> blacklistExists = blacklistRepository.findByCpf(blacklist.getCpf());
+
+        if (blacklistExists.isPresent()) {
+            throw new RuntimeException();
+        }
+
+        Blacklist newBlacklist = Blacklist.builder()
+                .cpf(blacklist.getCpf())
+                .createdDate(LocalDateTime.now())
+                .build();
+
+        return blacklistRepository.save(newBlacklist);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBlacklistedByCpf(String cpf) {
+        blacklistRepository.deleteByCpf(cpf);
     }
 }
