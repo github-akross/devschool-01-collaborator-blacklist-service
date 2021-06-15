@@ -2,6 +2,7 @@ package br.com.devschool.collaboratorblacklistservice.domain.service.impl;
 
 
 import br.com.devschool.collaboratorblacklistservice.domain.model.Blacklist;
+import br.com.devschool.collaboratorblacklistservice.domain.model.BlacklistResponse;
 import br.com.devschool.collaboratorblacklistservice.domain.service.BlacklistService;
 import br.com.devschool.collaboratorblacklistservice.infrastructure.repository.BlacklistRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,11 @@ public class BlacklistImpl implements BlacklistService {
     }
 
     @Override
-    public Blacklist getBlacklistedCollaboratorByCpf(String cpf) {
-        return  blacklistRepository.findByCpf(cpf).orElseThrow(RuntimeException::new);
+    public BlacklistResponse checkIfBlacklistedCollaboratorByCpf(String cpf) {
+       return BlacklistResponse.builder()
+               .result(blacklistRepository.findByCpf(cpf).isPresent())
+               .build();
+
     }
 
     @Override

@@ -2,6 +2,7 @@ package br.com.devschool.collaboratorblacklistservice.application.controller;
 
 
 import br.com.devschool.collaboratorblacklistservice.domain.model.Blacklist;
+import br.com.devschool.collaboratorblacklistservice.domain.model.BlacklistResponse;
 import br.com.devschool.collaboratorblacklistservice.domain.service.BlacklistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,8 @@ public class BlacklistController {
 
     // show blacklist by cpf
     @GetMapping("/blacklist/{cpf}")
-    public ResponseEntity<Blacklist> getBlacklistedCollaboratorByCpf(@PathVariable String cpf){
-        return ResponseEntity.ok(blacklistService.getBlacklistedCollaboratorByCpf(cpf));
+    public ResponseEntity<BlacklistResponse> checkIfBlacklistedCollaboratorByCpf(@PathVariable String cpf){
+        return ResponseEntity.ok(blacklistService.checkIfBlacklistedCollaboratorByCpf(cpf));
     }
 
     // create blacklist
